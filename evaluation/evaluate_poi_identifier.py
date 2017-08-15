@@ -29,3 +29,37 @@ labels, features = targetFeatureSplit(data)
 ### your code goes here 
 
 
+from sklearn.cross_validation import train_test_split
+
+features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size = 0.3, random_state = 42)
+
+from sklearn.tree import DecisionTreeClassifier
+
+clf = DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
+print "Accuracy score:", clf.score(features_test,labels_test)
+
+preds = clf.predict(features_test)
+print preds
+num_pois = 0
+
+for pred in preds:
+	if pred == 1:
+		num_pois += 1
+
+print "Number of POIs predicted:", num_pois
+print "Total number of people in test set:", len(preds)
+
+
+from sklearn.metrics import *
+print "precision_score " ,precision_score(labels_test, preds)
+print "recall_score ", recall_score(labels_test, preds)
+
+predictions = [0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1] 
+true_labels = [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0]
+
+# What's the precision of this classifier?
+print precision_score(true_labels, predictions)
+
+# What's the recall of this classifier?
+print recall_score(true_labels, predictions)
